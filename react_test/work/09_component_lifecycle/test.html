@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>10_ComponentLife</title>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+  /*
+  需求: 自定义组件
+    1. 让指定的文本做显示/隐藏的动画
+    2. 切换时间为2S
+    3. 点击按钮从界面中移除组件界面
+   */
+
+  class Life extends React.Component{
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        opacity: 1
+      }
+
+      this.distroyComponent = this.distroyComponent.bind(this)
+    }
+
+    distroyComponent(){
+      ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+    }
+
+
+    componentDidMount(){
+
+      this.theid = setInterval(function () {
+        console.log('timer.....')
+        let {opacity} = this.state
+        opacity -=0.1
+        if(opacity<=0){
+          opacity = 1
+        }
+        this.setState({opacity})
+      }.bind(this),200)
+    }
+
+
+    componentWillUnmount(){
+      clearInterval(this.theid)
+    }
+
+    render() {
+      const {opacity} = this.state
+      return (
+              <div>
+                <h2 style={{opacity: opacity}}>{this.props.msg}</h2>
+                <button onClick = {this.distroyComponent}>yeah!!!</button>
+              </div>
+      )
+    }
+  }
+
+  ReactDOM.render(<Life msg = "react supreme"/>,document.getElementById('example'))
+</script>
+</body>
+</html>
