@@ -1,13 +1,7 @@
-import {createStore, applyMiddleware} from 'redux'
-import thunk from 'redux-thunk'
-import {composeWithDevTools} from "redux-devtools-extension";
+import {createStore} from 'redux'
+import counter from './reducers'
+//import counters from './reducers'
 
-
-import {counter} from './reducers'
-
-const store = createStore(
-    counter,
-    composeWithDevTools(applyMiddleware(thunk))
-)
+const store = createStore(counter)
 
 export default store
